@@ -1,7 +1,7 @@
 'use strict';
 
 //   ====================         Declare Global Variables     ===============================
-var numItemsToDisplay = 2;
+var numItemsToDisplay = 3;
 var arrayOfItems = [];
 var votesMadeThusFar = 0;
 var itemsBeingShown = [];
@@ -18,14 +18,17 @@ function SalesItem(imgFilepath, itemDescription, itemName) {
     arrayOfItems.push(this);
 }
 
-//   =================     Function to Select new Store Objects for comparison
+//   =================     Function to Select new Store Objects ========================
 function selectNewObjects() {
+    itemsToTestAgainst = [];
     for (var i = 0; i < numItemsToDisplay; i++) {
         itemsToTestAgainst[i] = itemsBeingShown[i].itemName;
     } // creates an array to test against to ensure we don't duplicate items from last round.
 
     var testName = itemsToTestAgainst[0];
 
+    //For loop to create appropriate number of items
+    //While to ensure item isn't in the array of prohibited items for this time around.
     for (var i = 0; i < numItemsToDisplay; i++) {
         while (itemsToTestAgainst.includes(testName)) {
             var index = Math.floor(Math.random() * arrayOfItems.length);
@@ -36,6 +39,9 @@ function selectNewObjects() {
     }
 }
 
+
+//  =============     =============     =============     =============     =============     
+
 new SalesItem('images/bag.jpg', 'R2Dbag!', 'Starwars Travel Bag');
 new SalesItem('images/banana.jpg', 'Banana Rama Ding Dong', 'Banana Slicer');
 new SalesItem('images/bathroom.jpg', 'Bathroom Ipad Holder', 'poopy-pad');
@@ -43,68 +49,40 @@ new SalesItem('images/breakfast.jpg', 'All in 1, Breakfast Maker', 'Breakfast');
 new SalesItem('images/bubblegum.jpg', 'All the flavor of an Italian Grandma', 'sounds disgusting');
 new SalesItem('images/chair.jpg', 'It\'s probably not the most uncomfortable chair in the world', 'Yeah it is.');
 
+
+//  initialize by saying StarWars 
 for (var i = 0; i < numItemsToDisplay; i++) {
     itemsBeingShown.push(arrayOfItems[0])
 }
 
+
+//  Function to build out the table
+function buildDisplayTable() {
+    displayTable.innerHTML = '';
+    var newTR = document.createElement('tr');
+    for (var i in itemsBeingShown) {
+        var newCell = document.createElement('td');
+        newCell.innerHTML = "<img src='itemsBeingShown[i].imgFilepath' />";
+        newTR.appendChild(newCell);
+    }
+
+    for (var i in itemsBeingShown) {
+        var newCell = document.createElement('td');
+        var img = document.createElement("img");
+        img.src = itemsBeingShown[i].imgFilepath;
+        newCell.appendChild(img);
+        newTR.appendChild(newCell);
+    }
+    displayTable.appendChild(newTR);
+}
+
 selectNewObjects();
-
-
-/* 
-//global variables
-var allPictures = [];
-
-var imgEl1 = document.getElementById('goat1');
-var imgEl2 = document.getElementById('goat2');
-
-// We didn't use these in demo yet
-var h2El1 = document.getElementById('goat-1-text');
-var h2El2 = document.getElementById('goat-2-text');
-
-var picture1Index = 0;
-var picture2Index = 1;
-
-//========================
-
-imgEl1.addEventListener('click', function(){
-  allPictures[picture1Index].clicked++;
-  chooseNewPictures();
-});
-
-imgEl2.addEventListener('click', function() {
-  allPictures[picture2Index].clicked++;
-  chooseNewPictures();
-
-});
-
-function chooseNewPictures() {
-    picture1Index = Math.floor(Math.random() * allPictures.length);
-    imgEl1.src = allPictures[picture1Index].url;
-    picture2Index = Math.floor(Math.random() * allPictures.length);
-    imgEl2.src = allPictures[picture2Index].url;
-  }
-
-new Picture('images/cruisin-goat.jpg', 'cruisin-goat');
-new Picture('images/float-your-goat.jpg', 'float your goat');
-new Picture('images/kissing-goat.jpg', 'kissing goat');
-new Picture('images/goat-out-of-hand.jpg', 'goat out of hand goat');
-new Picture('images/sassy-goat.jpg', 'Allie goat');
-
-
-chooseNewPictures();
-
- */
+buildDisplayTable();
 
 
 
 
-
-
-//build out the table
-
-//  Constructor Function for each sales item.  Needs to contain image location, image description, total votes, and total views.
-
-//  Function to Randomly Select 3 items, checking to make sure they aren't identical, or in the last set of viewed items
+//  build out the table
 
 //  function to display results
 
