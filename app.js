@@ -7,6 +7,7 @@ var votesMadeThusFar = 0;
 var itemsBeingShown = [];
 var itemsToTestAgainst = [];
 var displayTable = document.getElementById('displaytable');
+var StopAfterXVotes = 3;
 
 //   ====================      Sales Item Constructor Function       =======================
 function SalesItem(imgFilepath, itemDescription, itemName) {
@@ -50,6 +51,7 @@ function buildDisplayTable() {
     displayTable.innerHTML = '';
     var trImages = document.createElement('tr');
     var trDescription = document.createElement('tr');
+    var buttonTR = document.createElement('tr');
 
     for (var i in itemsBeingShown) {
         //  Do the Image Row
@@ -58,9 +60,6 @@ function buildDisplayTable() {
         var img = document.createElement("img");
         img.width = 200;
         img.src = itemsBeingShown[i].imgFilepath;
-
-        //assign the td an ID to be used in the event listener
-        tdImages.id = i
 
         tdImages.appendChild(img);
         trImages.appendChild(tdImages);
@@ -71,46 +70,57 @@ function buildDisplayTable() {
         tdDescription.textContent = itemsBeingShown[i].itemDescription;
         tdDescription.width = 200;
         trDescription.appendChild(tdDescription);
+
+        //  Build the Button Row    
+        var tdButton = document.createElement('td');
+        var newButton = document.createElement('button');
+        tdButton.appendChild(newButton)
+        newButton.textContent = 'Pick Me!!!';
+        newButton.id= i;
+        buttonTR.appendChild(tdButton)
+
     }
 
     displayTable.appendChild(trImages);
     displayTable.appendChild(trDescription);
+    displayTable.appendChild(buttonTR)
     timesShownIncrement();
 }
 
-//  =======   Add Event Listener to Table:  ==========
+//  =======   Add Event Listener to buttons:  ==========
+    // I tried to put 1 listener on the table, but couldn't figure out how
+    // to tell which picture was clicked.  Honestly, I kindof wanted buttons
+    // anyways, so no big deal.  But if I forget to ask in class tomorrow, I'd
+    // definitely like to know how to do this.  I think we covered it briefly today,
+    // but I'm not sure.  I def. don't remember it though!
 
-//Got some help from Stack Overflow on this part.
-//Specifically, learned what a node-list is, and how
-//to apply it to this particular problem.
-function listenAndLog() {
-    //  make a node-list of all the th
-    var tableImages = document.querySelectorAll('th')
+    function listenAndLog() {
+        //put event listeners on each button
+        for (var i in itemsBeingShown)
+        {
+            var thisButton = document.getElementById(i);
+            thisButton.addEventListener('click', buttonClicked);
+        }
+    }
+    
+    
+//  =======  Event Handler for When Table is Clicked ======
 
-    // add an event listener to each node
-    tableImages.forEach(function (clickMe) {
-        clickMe.addEventListener('click', function (clicked) {
+function buttonClicked (event) {
+    //Count Vote
+    itemsBeingShown[this.id].totalVotes++;
+    votesMadeThusFar++;
+    if(votesMadeThusFar===StopAfterXVotes)
+    {
+        endpage
+    }
+    else{
+        selectNewObjects();
+        buildDisplayTable();
+        listenAndLog();
+    }
+}
 
-            // get the ID of the TH that was clicked on.
-            var itemClicked = clicked.currentTarget;
-            var idItemClicked = itemClicked.id
-            votesMadeThusFar++;
-            itemsBeingShown[idItemClicked].totalVotes++;
-
-            if (votesMadeThusFar > 3) {
-                endpage();
-            }
-            else {
-                selectNewObjects();
-                buildDisplayTable();
-                listenAndLog();
-            }
-
-            // There's got to be a better way of doing this!        
-        });
-
-    });
-};
 
 //  =============     =============     =============     =============     =============     
 
@@ -129,11 +139,11 @@ listenAndLog();
 
 //   ================    function to display results
 function endpage(){
-    var tableImages = document.querySelectorAll('th')
+//     var tableImages = document.querySelectorAll('th')
 
-    // Remove event listener from each node
-    tableImages.forEach.removeEventListener('click', clicked);
-    console.log('removed?')
+//     // Remove event listener from each node
+//     tableImages.forEach.removeEventListener('click', clicked);
+    console.log('endpage')
 }
 
 /*   ====================    Requirements from Class  Repo
