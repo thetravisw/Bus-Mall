@@ -112,7 +112,7 @@ function buttonClicked (event) {
     votesMadeThusFar++;
     if(votesMadeThusFar===StopAfterXVotes)
     {
-        endpage
+        endpage();
     }
     else{
         selectNewObjects();
@@ -139,11 +139,12 @@ listenAndLog();
 
 //   ================    function to display results
 function endpage(){
-//     var tableImages = document.querySelectorAll('th')
-
-//     // Remove event listener from each node
-//     tableImages.forEach.removeEventListener('click', clicked);
-    console.log('endpage')
+    for (var i in itemsBeingShown)
+        {
+            var thisButton = document.getElementById(i);
+            thisButton.removeEventListener('click', buttonClicked);
+        }
+    
 }
 
 /*   ====================    Requirements from Class  Repo
