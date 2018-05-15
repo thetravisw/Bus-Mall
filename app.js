@@ -71,7 +71,7 @@ function buildDisplayTable() {
         img.src = itemsBeingShown[i].imgFilepath;
 
         //assign the td an ID to be used in the event listener
-        tdImages.id = itemsBeingShown[i].itemName
+        tdImages.id = i
 
         tdImages.appendChild(img);
         trImages.appendChild(tdImages);
@@ -90,59 +90,48 @@ function buildDisplayTable() {
 
 //  =======   Add Event Listener to Table:  ==========
 
-
-
-//Got some help from Stack Overflow on this function.
+//Got some help from Stack Overflow on this part.
 //Specifically, learned what a node-list is, and how
 //to apply it to this particular problem.
-
-
 function listenAndLog() {
     //  make a node-list of all the th
     var tableImages = document.querySelectorAll('th')
 
     // add an event listener to each node
-    tableImages.forEach( function (clickMe) {
+    tableImages.forEach(function (clickMe) {
         clickMe.addEventListener('click', function (clicked) {
 
             // get the ID of the TH that was clicked on.
             var itemClicked = clicked.currentTarget;
             var idItemClicked = itemClicked.id
-            console.log(idItemClicked);
+            votesMadeThusFar++;
+            itemsBeingShown[idItemClicked].totalVotes++;
 
-            // There's got to be a better way of doing this!
+            if (votesMadeThusFar > 24) {
+                'End Page'
+            }
+            else {
+                selectNewObjects();
+                buildDisplayTable();
+                listenAndLog();
+            }
 
-            selectNewObjects();
-            buildDisplayTable();
-
-
+            // There's got to be a better way of doing this!        
         });
+
     });
 };
 
-initializePage();
 
-for (var j=1;j<26;j++){
+initializePage();
 selectNewObjects();
 buildDisplayTable();
 listenAndLog();
-}
 
 
-// displayTable.addEventListener('click',function(){
-// console.log('clicked');
-
-// selectNewObjects();
-// })
-// imgEl2.addEventListener('click', function() {
-//     allPictures[picture2Index].clicked++;
-//     chooseNewPictures();
-
-//   });
 
 //  function to display results
 
-//  Event listener to determine clicks
 
 //  Event Handler.   Increments votes, if/then to determine if new product or display results
 
