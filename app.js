@@ -8,7 +8,7 @@ var itemsBeingShown = [];
 var itemsToTestAgainst = [];
 var displayTable = document.getElementById('displaytable');
 var resultsList = document.getElementById('resultslist');
-var StopAfterXVotes = 3;
+var StopAfterXVotes = 8;
 
 //   ====================      Sales Item Constructor Function       =======================
 function SalesItem(imgFilepath, itemDescription, itemName) {
@@ -167,12 +167,11 @@ function endpage(){
     //build out arrays for chart data.
     var xAxisLabels = [];
     var yAxisValues = [];
-    var chartBGColor = ['red','orange','charcoal','rebeccapurple'];
-    var chartBorderColor = [];
+    var chartBGColor = ['red', 'blue','orange','black','purple','green','yellow','fuscia','cyan','red', 'blue','orange','black','purple','green','yellow','fuscia','cyan'];
+    var chartBorderColor = ['red', 'blue','orange','black','purple','green','yellow','fuscia','cyan','red', 'blue','orange','black','purple','green','yellow','fuscia','cyan'];
     for (var i in arrayOfItems){
         xAxisLabels[i] = arrayOfItems[i].itemName;
         yAxisValues[i] = arrayOfItems[i].totalVotesForItem
-        chartBorderColor[i] = Math.floor(Math.random()*256);
     }
 
 
@@ -180,7 +179,7 @@ function endpage(){
 
     var ctx = document.getElementById("saleschart").getContext('2d');
     var myChart = new Chart(ctx, {
-        type: 'bar',
+        type: 'horizontalBar',
         data: {
             labels: xAxisLabels,
             datasets: [{
@@ -203,13 +202,3 @@ function endpage(){
     });
 
 }
-
-
-/* Your savvy marketing person has just informed you that just showing users the numbered data of the click percentages is not going to cut it. You need a visual representation to grab the user's attention.
-
-New Bus Mall Technical Goal
-Do today's work on a branch called chartjs.
-
-Using ChartJS, display your vote totals in a bar chart as instructed in the initial definition of the BusMall assignment. If you want to try some additional chart types, do so with some of your alternate data that you have calculated from your vote results. The size and look of your chart is up to you, just be sure to put it in the area beneath the three images. Hint: for this type of data, bar charts work well.
-
-Remember to submit this link on canvas so that your work can be graded! */
