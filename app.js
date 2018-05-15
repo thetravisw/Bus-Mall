@@ -1,35 +1,175 @@
-//  Constructor Function for each sales item.  Needs to contain image location, image description, total votes, and total views.
+'use strict';
 
-//  Function to Randomly Select 3 items, checking to make sure they aren't identical, or in the last set of viewed items
+//   ====================         Declare Global Variables     ===============================
+var numItemsToDisplay = 3;
+var arrayOfItems = [];
+var votesMadeThusFar = 0;
+var itemsBeingShown = [];
+var itemsToTestAgainst = [];
+var displayTable = document.getElementById('displaytable');
+var resultsList = document.getElementById('resultslist');
+var StopAfterXVotes = 25;
 
-//  function to display results
+//   ====================      Sales Item Constructor Function       =======================
+function SalesItem(imgFilepath, itemDescription, itemName) {
+    this.itemName = itemName;
+    this.imgFilepath = imgFilepath;
+    this.itemDescription = itemDescription;
+    this.totalVotesForItem = 0;
+    this.timesShown = 0;
+    arrayOfItems.push(this);
+}
 
-//  Event listener to determine clicks
+//   =================     Function to Select new Objects for sale ========================
+function selectNewObjects() {
+    itemsToTestAgainst = [];
+    for (var i in itemsBeingShown) {
+        itemsToTestAgainst[i] = itemsBeingShown[i].itemName;
+    } // creates an array to test against to ensure we don't duplicate items from last round.
 
-//  Event Handler.   Increments votes, if/then to determine if new product or display results
+    //For loop to create appropriate number of items
+    //While to ensure item isn't in the array of prohibited items for this iteration.
+    for (var i = 0; i < numItemsToDisplay; i++) {
+        do {
+            var index = Math.floor(Math.random() * arrayOfItems.length);
+            var testName = arrayOfItems[index].itemName;
+        }
+        while (itemsToTestAgainst.includes(testName))
+        itemsToTestAgainst.push(arrayOfItems[index].itemName);
+        itemsBeingShown[i] = arrayOfItems[index];
+    }
+}
+
+//  Function to increment Times Shown count
+function timesShownIncrement () {
+for (var i in itemsBeingShown) {
+    itemsBeingShown[i].timesShown++;
+}
+}
+
+//  Function to build out the table
+function buildDisplayTable() {
+    displayTable.innerHTML = '';
+    var trImages = document.createElement('tr');
+    var trDescription = document.createElement('tr');
+    var buttonTR = document.createElement('tr');
+
+    //calculate width of images.
+    var screenWidth=window.screen.availWidth;
+    var imageWidth = Math.floor(screenWidth / (2+numItemsToDisplay));
+    if (imageWidth > 300){
+        imageWidth = 300;
+    }
+
+    for (var i in itemsBeingShown) {
+        //  Do the Image Row
+        var tdImages = document.createElement('td');
+        // switched from td to th to make capturing clicks easier.
+        var img = document.createElement("img");
+        img.width = imageWidth;
+        img.height = imageWidth;
+        img.src = itemsBeingShown[i].imgFilepath;
+
+        tdImages.appendChild(img);
+        trImages.appendChild(tdImages);
 
 
+        //Do the Description Row
+        var tdDescription = document.createElement('td');
+        tdDescription.textContent = itemsBeingShown[i].itemDescription;
+        tdDescription.width = 200;
+        trDescription.appendChild(tdDescription);
+
+        //  Build the Button Row    
+        var tdButton = document.createElement('td');
+        var newButton = document.createElement('button');
+        tdButton.appendChild(newButton)
+        newButton.textContent = 'Pick Me!!!';
+        newButton.id= i;
+        buttonTR.appendChild(tdButton)
+
+    }
+
+    displayTable.appendChild(trImages);
+    displayTable.appendChild(trDescription);
+    displayTable.appendChild(buttonTR)
+    timesShownIncrement();
+}
+
+//  =======   Add Event Listener to buttons:  ==========
+    // I tried doing this by putting only 1 listener on the table.  Failed miserably.
+    // The listner could detect the clicks just fine... but I couldn't figure out how to tell
+    // which individual button was being clicked on.
 
 
+    function listenAndLog() {
+        //put event listeners on each button
+        for (var i in itemsBeingShown)
+        {
+            var thisButton = document.getElementById(i);
+            thisButton.addEventListener('click', buttonClicked);
+        }
+    }
+    
+    
+//  =======  Event Handler for When Table is Clicked ======
+
+function buttonClicked (event) {
+    //Count Vote
+    itemsBeingShown[this.id].totalVotesForItem++;
+    votesMadeThusFar++;
+    if(votesMadeThusFar===StopAfterXVotes)
+    {
+        endpage();
+    }
+    else{
+        selectNewObjects();
+        buildDisplayTable();
+        listenAndLog();
+    }
+}
 
 
+//  =============     =============     =============     =============     =============     
+
+new SalesItem('images/bag.jpg', 'R2Dbag!', 'Starwars Travel Bag');
+new SalesItem('images/banana.jpg', 'Banana Rama Ding Dong', 'Banana Slicer');
+new SalesItem('images/bathroom.jpg', 'You can Twitter, while on the shitter.', 'Poopy Pad');
+new SalesItem('images/breakfast.jpg', 'All in 1, Breakfast Maker', 'Breakfast');
+new SalesItem('images/bubblegum.jpg', "It's less gross than you think!  (Hopefully)", 'Balls.  Meat Balls.');
+new SalesItem('images/chair.jpg', "It's probably not the most uncomfortable chair in the world", "The Most Uncomfortable Chair in the World");
+new SalesItem('images/cthulhu.jpg', "Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtan", "R'lyeh wgah'nagl");
+new SalesItem('images/dog-duck.jpg', 'Given how successfull cat-dog was, can you really afford to pass on this', 'The worst sequel idea since Sharknado IV');
+new SalesItem("images/dragon.jpg", 'Tastes like Chicken', 'Canned chicken');
+new SalesItem('images/pen.jpg', 'For a REAL working lunch', 'Food poisoning' );
+new SalesItem('images/pet-sweep.jpg', "It's your fur I'm trying to clean up anyways, douchebag!", 'Dog Slippers');
+new SalesItem('images/shark.jpg', 'To stay deliciously warm...', 'Jaws');
+new SalesItem('images/sweep.png', "It's the only way he'll clean his college dorm", 'child abuse');
+new SalesItem('images/tauntaun.jpg', 'How warm is one of these things anyways?', 'Lukewarm');
+new SalesItem('images/unicorn.jpg',"100% genuine","Secretariat");
+new SalesItem('images/usb.gif', "Back that thing up", 'USB');
+new SalesItem('images/water-can.jpg','"Maybe I can beat the designer over the head with it?"', "watering can't")
+new SalesItem('images/wine-glass.jpg',"If you can't drink out of this, it's time to stop drinking",'Red red wine.')
+
+selectNewObjects();
+buildDisplayTable();
+listenAndLog();
 
 
+//   ================    Endpage
 
-/*   ====================    Requirements from Class  Repo
-Do today's work on a branch called busmall-start.
+function endpage(){
+    //Turn off the Event Listners
+    for (var i in itemsBeingShown)
+        {
+            var thisButton = document.getElementById(i);
+            thisButton.removeEventListener('click', buttonClicked);
+        }
 
-
-Scaffold your repo with the usual README, CSS, JS, and HTML files, plus a img/ directory.
-
-The thing you want to build today will select three random photos from the image directory and display them side-by-side-by-side in the browser window.
-In addition, you'll want to be able to receive clicks on those displayed images, and track those clicks for each image. You'll also want to track how many times each image is displayed, for statistical purposes.
-Upon receiving a click, three new non-duplicating random images need to be automatically displayed. In other words, the three images that are displayed should contain no duplicates, nor should they duplicate with any images that we displayed immediately before.
-To do this, you'll want a constructor function that creates an object associated with each image, and has (at a minimum) properties for the name of the image (to be used for display purposes), its filepath, the number of times it has been shown, and the number of times it has been clicked. You'll probably find it useful to create a property that contains a text string you can use as an ID in HTML.
-After 25 selections have been made, turn off the event listeners on the images (to prevent additional voting) and also display a list of the products with votes received with each list item looking like "3 votes for the Banana Slicer".
-Stretch Goals For This Lab
-Handle the display and voting for an arbitrary number of images
-Using a variable, declare in your JS how many images to show
-Based on that value, dynamically create that many <img> tags
-Also based on that value, ensure that your randomizer is properly handling the specified number of images for display and repeat tracking.
-*/
+    //Show the results
+    for (i in arrayOfItems){
+        var newLI = document.createElement('li');
+        newLI.textContent = arrayOfItems[i].totalVotesForItem + ' votes for ' + arrayOfItems[i].itemName + '.  (displayed ' + arrayOfItems[i].timesShown +' times)';
+        resultslist.appendChild(newLI);
+    }
+}
