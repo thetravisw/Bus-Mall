@@ -74,6 +74,7 @@ function buildDisplayTable() {
         //Do the Description Row
     var tdDescription = document.createElement('td');
     tdDescription.textContent = itemsBeingShown[i].itemDescription;
+    tdDescription.width=200;
     trDescription.appendChild(tdDescription);
     }
 
