@@ -6,16 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Busmall! We sell big! We sell small!</title>
+
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 </head>
 
 <body>
     <navbar>
     </navbar>
     <main>
-        <section id=display-table-section>
+        <section>
             <table id=displaytable></table>
         </section>
-        <ul id=resultslist></ul>
+        <section>
+            <canvas id="saleschart" width="600px" height="600px"></canvas>
+        </section>
     </main>
     <script src="app.js"></script>
 </body>
