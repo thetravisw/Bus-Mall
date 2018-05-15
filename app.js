@@ -38,6 +38,13 @@ function selectNewObjects() {
     }
 }
 
+//  Function to increment Times Shown count
+function timesShownIncrement () {
+for (var i in itemsBeingShown) {
+    itemsBeingShown[i].timesShown++;
+}
+}
+
 //  Function to build out the table
 function buildDisplayTable() {
     displayTable.innerHTML = '';
@@ -68,6 +75,7 @@ function buildDisplayTable() {
 
     displayTable.appendChild(trImages);
     displayTable.appendChild(trDescription);
+    timesShownIncrement();
 }
 
 //  =======   Add Event Listener to Table:  ==========
@@ -89,8 +97,8 @@ function listenAndLog() {
             votesMadeThusFar++;
             itemsBeingShown[idItemClicked].totalVotes++;
 
-            if (votesMadeThusFar > 24) {
-                'End Page'
+            if (votesMadeThusFar > 3) {
+                endpage();
             }
             else {
                 selectNewObjects();
@@ -119,21 +127,18 @@ listenAndLog();
 
 
 
-//  function to display results
+//   ================    function to display results
+function endpage(){
+    var tableImages = document.querySelectorAll('th')
 
-
-//  Event Handler.   Increments votes, if/then to determine if new product or display results
-
-
-
-
-
-
+    // Remove event listener from each node
+    tableImages.forEach.removeEventListener('click', clicked);
+    console.log('removed?')
+}
 
 /*   ====================    Requirements from Class  Repo
 
-The thing you want to build today will select three random photos from the image directory and display them side-by-side-by-side in the browser window.
-In addition, you'll want to be able to receive clicks on those displayed images, and track those clicks for each image. You'll also want to track how many times each image is displayed, for statistical purposes.
+You'll also want to track how many times each image is displayed, for statistical purposes.
 
 After 25 selections have been made, turn off the event listeners on the images (to prevent additional voting) and also display a list of the products with votes received with each list item looking like "3 votes for the Banana Slicer".
 Stretch Goals For This Lab
