@@ -18,15 +18,15 @@ function SalesItem(imgFilepath, itemDescription, itemName) {
     arrayOfItems.push(this);
 }
 
-//   =================     Function to Select new Store Objects ========================
+//   =================     Function to Select new Objects for sale ========================
 function selectNewObjects() {
     itemsToTestAgainst = [];
-    for (var i = 0; i < numItemsToDisplay; i++) {
+    for (var i in itemsBeingShown) {
         itemsToTestAgainst[i] = itemsBeingShown[i].itemName;
     } // creates an array to test against to ensure we don't duplicate items from last round.
 
     //For loop to create appropriate number of items
-    //While to ensure item isn't in the array of prohibited items for this time around.
+    //While to ensure item isn't in the array of prohibited items for this iteration.
     for (var i = 0; i < numItemsToDisplay; i++) {
         do {
             var index = Math.floor(Math.random() * arrayOfItems.length);
@@ -35,24 +35,6 @@ function selectNewObjects() {
         while (itemsToTestAgainst.includes(testName))
         itemsToTestAgainst.push(arrayOfItems[index].itemName);
         itemsBeingShown[i] = arrayOfItems[index];
-    }
-}
-
-
-//  =============     =============     =============     =============     =============     
-
-new SalesItem('images/bag.jpg', 'R2Dbag!', 'Starwars Travel Bag');
-new SalesItem('images/banana.jpg', 'Banana Rama Ding Dong', 'Banana Slicer');
-new SalesItem('images/bathroom.jpg', 'You can Twitter, while on the shitter.', 'poopy-pad');
-new SalesItem('images/breakfast.jpg', 'All in 1, Breakfast Maker', 'Breakfast');
-new SalesItem('images/bubblegum.jpg', 'All the flavor of an Italian Grandma', 'sounds disgusting');
-new SalesItem('images/chair.jpg', "It's probably not the most uncomfortable chair in the world", "Yeah it is.");
-
-
-//  initialize by saying StarWars.   Might wanna switch to empty SalesItem
-function initializePage() {
-    for (var i = 0; i < numItemsToDisplay; i++) {
-        itemsBeingShown.push(arrayOfItems[0]);
     }
 }
 
@@ -122,8 +104,15 @@ function listenAndLog() {
     });
 };
 
+//  =============     =============     =============     =============     =============     
 
-initializePage();
+new SalesItem('images/bag.jpg', 'R2Dbag!', 'Starwars Travel Bag');
+new SalesItem('images/banana.jpg', 'Banana Rama Ding Dong', 'Banana Slicer');
+new SalesItem('images/bathroom.jpg', 'You can Twitter, while on the shitter.', 'poopy-pad');
+new SalesItem('images/breakfast.jpg', 'All in 1, Breakfast Maker', 'Breakfast');
+new SalesItem('images/bubblegum.jpg', 'All the flavor of an Italian Grandma', 'sounds disgusting');
+new SalesItem('images/chair.jpg', "It's probably not the most uncomfortable chair in the world", "Yeah it is.");
+
 selectNewObjects();
 buildDisplayTable();
 listenAndLog();
