@@ -60,15 +60,11 @@ for (var i = 0; i < numItemsToDisplay; i++) {
 function buildDisplayTable() {
     displayTable.innerHTML = '';
     var newTR = document.createElement('tr');
-    for (var i in itemsBeingShown) {
-        var newCell = document.createElement('td');
-        newCell.innerHTML = "<img src='itemsBeingShown[i].imgFilepath' />";
-        newTR.appendChild(newCell);
-    }
 
     for (var i in itemsBeingShown) {
         var newCell = document.createElement('td');
         var img = document.createElement("img");
+        img.width = 200;
         img.src = itemsBeingShown[i].imgFilepath;
         newCell.appendChild(img);
         newTR.appendChild(newCell);
