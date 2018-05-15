@@ -1,7 +1,7 @@
 'use strict';
 
 //   ====================         Declare Global Variables     ===============================
-var numItemsToDisplay = 3;
+var numItemsToDisplay = 6;
 var arrayOfItems = [];
 var votesMadeThusFar = 0;
 var itemsBeingShown = [];
@@ -9,6 +9,7 @@ var itemsToTestAgainst = [];
 var displayTable = document.getElementById('displaytable');
 var resultsList = document.getElementById('resultslist');
 var StopAfterXVotes = 25;
+var tableSection = document.getElementById('display-table-section');
 
 //   ====================      Sales Item Constructor Function       =======================
 function SalesItem(imgFilepath, itemDescription, itemName) {
@@ -96,36 +97,33 @@ function buildDisplayTable() {
     timesShownIncrement();
 }
 
-//  =======   Add Event Listener to buttons:  ==========
-    // I tried doing this by putting only 1 listener on the table.  Failed miserably.
-    // The listner could detect the clicks just fine... but I couldn't figure out how to tell
-    // which individual button was being clicked on.
+//   ==========    Event Listener Second Try:    ===========
+tableSection.addEventListener('click', buttonWasClicked);
 
-
-    function listenAndLog() {
-        //put event listeners on each button
-        for (var i in itemsBeingShown)
-        {
-            var thisButton = document.getElementById(i);
-            thisButton.addEventListener('click', buttonClicked);
-        }
+function buttonWasClicked(event){
+    //create test array to make sure we're seeing clicks on buttons
+    var testArray = []
+    for(var i=0; i < numItemsToDisplay; i++){
+        testArray[i]=i;
     }
-    
-    
-//  =======  Event Handler for When Table is Clicked ======
 
-function buttonClicked (event) {
     //Count Vote
-    itemsBeingShown[this.id].totalVotesForItem++;
-    votesMadeThusFar++;
-    if(votesMadeThusFar===StopAfterXVotes)
+    var indexidnum = event.target.id;
+
+    if(testArray.includes(1*indexidnum)) 
     {
-        endpage();
-    }
-    else{
-        selectNewObjects();
-        buildDisplayTable();
-        listenAndLog();
+    
+        itemsBeingShown[indexidnum].totalVotesForItem++;
+        votesMadeThusFar++;
+
+        if(votesMadeThusFar===StopAfterXVotes)
+        {
+            endpage();
+        }
+        else{
+            selectNewObjects();
+            buildDisplayTable();
+        }
     }
 }
 
@@ -153,23 +151,20 @@ new SalesItem('images/wine-glass.jpg',"If you can't drink out of this, it's time
 
 selectNewObjects();
 buildDisplayTable();
-listenAndLog();
 
 
 //   ================    Endpage
 
 function endpage(){
     //Turn off the Event Listners
-    for (var i in itemsBeingShown)
-        {
-            var thisButton = document.getElementById(i);
-            thisButton.removeEventListener('click', buttonClicked);
-        }
+    tableSection.removeEventListener('click', buttonWasClicked);
 
     //Show the results
-    for (i in arrayOfItems){
+    for (var i in arrayOfItems){
         var newLI = document.createElement('li');
         newLI.textContent = arrayOfItems[i].totalVotesForItem + ' votes for ' + arrayOfItems[i].itemName + '.  (displayed ' + arrayOfItems[i].timesShown +' times)';
         resultslist.appendChild(newLI);
     }
 }
+
+
