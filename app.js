@@ -7,6 +7,7 @@ var votesMadeThusFar = 0;
 var itemsBeingShown = [];
 var itemsToTestAgainst = [];
 var displayTable = document.getElementById('displaytable');
+var resultsList = document.getElementById('resultslist');
 var StopAfterXVotes = 3;
 
 //   ====================      Sales Item Constructor Function       =======================
@@ -14,7 +15,7 @@ function SalesItem(imgFilepath, itemDescription, itemName) {
     this.itemName = itemName;
     this.imgFilepath = imgFilepath;
     this.itemDescription = itemDescription;
-    this.totalVotes = 0;
+    this.totalVotesForItem = 0;
     this.timesShown = 0;
     arrayOfItems.push(this);
 }
@@ -108,7 +109,7 @@ function buildDisplayTable() {
 
 function buttonClicked (event) {
     //Count Vote
-    itemsBeingShown[this.id].totalVotes++;
+    itemsBeingShown[this.id].totalVotesForItem++;
     votesMadeThusFar++;
     if(votesMadeThusFar===StopAfterXVotes)
     {
@@ -144,7 +145,12 @@ function endpage(){
             var thisButton = document.getElementById(i);
             thisButton.removeEventListener('click', buttonClicked);
         }
-    
+
+    for (i in arrayOfItems){
+        var newLI = document.createElement('li');
+        newLI.textContent = arrayOfItems[i].totalVotesForItem + 'votes for ' + arrayOfItems[i].itemName;
+        resultslist.appendChild(newLI);
+    }
 }
 
 /*   ====================    Requirements from Class  Repo
