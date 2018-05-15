@@ -59,17 +59,26 @@ for (var i = 0; i < numItemsToDisplay; i++) {
 //  Function to build out the table
 function buildDisplayTable() {
     displayTable.innerHTML = '';
-    var newTR = document.createElement('tr');
+    var trImages = document.createElement('tr');
+    var trDescription = document.createElement('tr');
 
     for (var i in itemsBeingShown) {
-        var newCell = document.createElement('td');
+        //  Do the Image Row
+        var tdImages = document.createElement('td');
         var img = document.createElement("img");
         img.width = 200;
         img.src = itemsBeingShown[i].imgFilepath;
-        newCell.appendChild(img);
-        newTR.appendChild(newCell);
+        tdImages.appendChild(img);
+        trImages.appendChild(tdImages);
+
+        //Do the Description Row
+    var tdDescription = document.createElement('td');
+    tdDescription.textContent = itemsBeingShown[i].itemDescription;
+    trDescription.appendChild(tdDescription);
     }
-    displayTable.appendChild(newTR);
+
+    displayTable.appendChild(trImages);
+    displayTable.appendChild(trDescription);
 }
 
 selectNewObjects();
