@@ -8,7 +8,7 @@ var itemsBeingShown = [];
 var itemsToTestAgainst = [];
 var displayTable = document.getElementById('displaytable');
 var resultsList = document.getElementById('resultslist');
-var StopAfterXVotes = 3;
+var StopAfterXVotes = 25;
 
 //   ====================      Sales Item Constructor Function       =======================
 function SalesItem(imgFilepath, itemDescription, itemName) {
@@ -54,12 +54,20 @@ function buildDisplayTable() {
     var trDescription = document.createElement('tr');
     var buttonTR = document.createElement('tr');
 
+    //calculate width of images.
+    var screenWidth=window.screen.availWidth;
+    var imageWidth = Math.floor(screenWidth / (2+numItemsToDisplay));
+    if (imageWidth > 300){
+        imageWidth = 300;
+    }
+
     for (var i in itemsBeingShown) {
         //  Do the Image Row
-        var tdImages = document.createElement('th');
+        var tdImages = document.createElement('td');
         // switched from td to th to make capturing clicks easier.
         var img = document.createElement("img");
-        img.width = 200;
+        img.width = imageWidth;
+        img.height = imageWidth;
         img.src = itemsBeingShown[i].imgFilepath;
 
         tdImages.appendChild(img);
@@ -89,11 +97,10 @@ function buildDisplayTable() {
 }
 
 //  =======   Add Event Listener to buttons:  ==========
-    // I tried to put 1 listener on the table, but couldn't figure out how
-    // to tell which picture was clicked.  Honestly, I kindof wanted buttons
-    // anyways, so no big deal.  But if I forget to ask in class tomorrow, I'd
-    // definitely like to know how to do this.  I think we covered it briefly today,
-    // but I'm not sure.  I def. don't remember it though!
+    // I tried doing this by putting only 1 listener on the table.  Failed miserably.
+    // The listner could detect the clicks just fine... but I couldn't figure out how to tell
+    // which individual button was being clicked on.
+
 
     function listenAndLog() {
         //put event listeners on each button
@@ -127,40 +134,42 @@ function buttonClicked (event) {
 
 new SalesItem('images/bag.jpg', 'R2Dbag!', 'Starwars Travel Bag');
 new SalesItem('images/banana.jpg', 'Banana Rama Ding Dong', 'Banana Slicer');
-new SalesItem('images/bathroom.jpg', 'You can Twitter, while on the shitter.', 'poopy-pad');
+new SalesItem('images/bathroom.jpg', 'You can Twitter, while on the shitter.', 'Poopy Pad');
 new SalesItem('images/breakfast.jpg', 'All in 1, Breakfast Maker', 'Breakfast');
-new SalesItem('images/bubblegum.jpg', 'All the flavor of an Italian Grandma', 'sounds disgusting');
-new SalesItem('images/chair.jpg', "It's probably not the most uncomfortable chair in the world", "Yeah it is.");
+new SalesItem('images/bubblegum.jpg', "It's less gross than you think!  (Hopefully)", 'Balls.  Meat Balls.');
+new SalesItem('images/chair.jpg', "It's probably not the most uncomfortable chair in the world", "The Most Uncomfortable Chair in the World");
+new SalesItem('images/cthulhu.jpg', "Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtan", "R'lyeh wgah'nagl");
+new SalesItem('images/dog-duck.jpg', 'Given how successfull cat-dog was, can you really afford to pass on this', 'The worst sequel idea since Sharknado IV');
+new SalesItem("images/dragon.jpg", 'Tastes like Chicken', 'Canned chicken');
+new SalesItem('images/pen.jpg', 'For a REAL working lunch', 'Food poisoning' );
+new SalesItem('images/pet-sweep.jpg', "It's your fur I'm trying to clean up anyways, douchebag!", 'Dog Slippers');
+new SalesItem('images/shark.jpg', 'To stay deliciously warm...', 'Jaws');
+new SalesItem('images/sweep.png', "It's the only way he'll clean his college dorm", 'child abuse');
+new SalesItem('images/tauntaun.jpg', 'How warm is one of these things anyways?', 'Lukewarm');
+new SalesItem('images/unicorn.jpg',"100% genuine","Secretariat");
+new SalesItem('images/usb.gif', "Back that thing up", 'USB');
+new SalesItem('images/water-can.jpg','"Maybe I can beat the designer over the head with it?"', "watering can't")
+new SalesItem('images/wine-glass.jpg',"If you can't drink out of this, it's time to stop drinking",'Red red wine.')
 
 selectNewObjects();
 buildDisplayTable();
 listenAndLog();
 
 
+//   ================    Endpage
 
-//   ================    function to display results
 function endpage(){
+    //Turn off the Event Listners
     for (var i in itemsBeingShown)
         {
             var thisButton = document.getElementById(i);
             thisButton.removeEventListener('click', buttonClicked);
         }
 
+    //Show the results
     for (i in arrayOfItems){
         var newLI = document.createElement('li');
-        newLI.textContent = arrayOfItems[i].totalVotesForItem + 'votes for ' + arrayOfItems[i].itemName;
+        newLI.textContent = arrayOfItems[i].totalVotesForItem + ' votes for ' + arrayOfItems[i].itemName + '.  (displayed ' + arrayOfItems[i].timesShown +' times)';
         resultslist.appendChild(newLI);
     }
 }
-
-/*   ====================    Requirements from Class  Repo
-
-You'll also want to track how many times each image is displayed, for statistical purposes.
-
-After 25 selections have been made, turn off the event listeners on the images (to prevent additional voting) and also display a list of the products with votes received with each list item looking like "3 votes for the Banana Slicer".
-Stretch Goals For This Lab
-Handle the display and voting for an arbitrary number of images
-Using a variable, declare in your JS how many images to show
-Based on that value, dynamically create that many <img> tags
-Also based on that value, ensure that your randomizer is properly handling the specified number of images for display and repeat tracking.
-*/
