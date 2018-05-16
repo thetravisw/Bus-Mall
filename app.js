@@ -1,14 +1,14 @@
 'use strict';
 
 //   ====================         Declare Global Variables     ===============================
-var numItemsToDisplay = 3;
+var numItemsToDisplay = 5;
 var arrayOfItems = [];
 var votesMadeThusFar = 0;
 var itemsBeingShown = [];
 var itemsToTestAgainst = [];
 var displayTable = document.getElementById('displaytable');
 var resultsList = document.getElementById('resultslist');
-var StopAfterXVotes = 8;
+var StopAfterXVotes = 6;
 
 //   ====================      Sales Item Constructor Function       =======================
 function SalesItem(imgFilepath, itemDescription, itemName) {
@@ -96,9 +96,10 @@ function buildDisplayTable() {
     timesShownIncrement();
 }
 
-//   ==========    Event Listener Second Try:    ===========
+//   ==========    Event Listner    ===========
 displayTable.addEventListener('click', buttonWasClicked);
 
+//  ===========   Event Handler   =============
 function buttonWasClicked(event){
     //create test array to make sure we're seeing clicks on buttons
     var testArray = []
@@ -112,7 +113,7 @@ function buttonWasClicked(event){
     if(testArray.includes(1*indexidnum)) 
     {
         votesMadeThusFar++;
-        itemsBeingShown[indexidnum].totalVotesForItem++;
+        itemsBeingShown[1*indexidnum].totalVotesForItem++;
         
 
         if(votesMadeThusFar===StopAfterXVotes)
@@ -179,13 +180,14 @@ function endpage(){
     var yAxisValues = [];
     var chartBGColor = [];
     var chartBorderColor = [];
+    var winningPercentage = [];
     for (var i in arrayOfItems){
         xAxisLabels[i] = arrayOfItems[i].itemName;
         yAxisValues[i] = arrayOfItems[i].totalVotesForItem;
         chartBGColor[i] = randomizeColor();
         chartBorderColor[i] = randomizeColor();
+        winningPercentage[i] = arrayOfItems[i].totalVotesForItem / arrayOfItems[i].timesShown;
     }
-
 
 
 
@@ -195,7 +197,7 @@ function endpage(){
         data: {
             labels: xAxisLabels,
             datasets: [{
-                label: '# of Votes',
+                label: 'Total Votes Won',
                 data: yAxisValues,
                 backgroundColor: chartBGColor,
                 borderColor: chartBorderColor,
@@ -214,5 +216,25 @@ function endpage(){
             }
         }
     });
+
+
+    var ctx = document.getElementById("winning%Chart").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: xAxisLabels,
+            datasets: [{
+                label: 'Winning %',
+                data: yAxisValues,
+                backgroundColor: chartBGColor,
+                borderColor: chartBorderColor,
+                borderWidth: 5
+            }]
+        },
+        options: {
+            
+        }
+    });
+
 
 }
