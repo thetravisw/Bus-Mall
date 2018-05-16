@@ -113,7 +113,7 @@ function buttonWasClicked(event) {
 
         if (votesMadeThusFar === StopAfterXVotes) {
             // Store data into local storage
-            localStorage.setItem('array', JSON.stringify(arrayOfItems))
+            localStorage.setItem('array', JSON.stringify(arrayOfItems));
             endpage();
 
         }
