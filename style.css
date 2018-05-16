@@ -1,3 +1,5 @@
-.tablesection{
-    border: 2px solid rgb(214, 32, 32);
+canvas{
+    width: 50px;
+    height: 100px;
+    position: relative;
 }

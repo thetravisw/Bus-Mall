@@ -1,7 +1,7 @@
 'use strict';
 
 //   ====================         Declare Global Variables     ===============================
-var numItemsToDisplay = 6;
+var numItemsToDisplay = 3;
 var arrayOfItems = [];
 var votesMadeThusFar = 0;
 var itemsBeingShown = [];
@@ -156,6 +156,16 @@ function initialize () {
 
 initialize();
 
+function randomizeColor() {
+    var options = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'];
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += options[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+
 //   ================    Endpage
 
 function endpage(){
@@ -167,11 +177,13 @@ function endpage(){
     //build out arrays for chart data.
     var xAxisLabels = [];
     var yAxisValues = [];
-    var chartBGColor = ['red', 'blue','orange','black','purple','green','yellow','fuscia','cyan','red', 'blue','orange','black','purple','green','yellow','fuscia','cyan'];
-    var chartBorderColor = ['red', 'blue','orange','black','purple','green','yellow','fuscia','cyan','red', 'blue','orange','black','purple','green','yellow','fuscia','cyan'];
+    var chartBGColor = [];
+    var chartBorderColor = [];
     for (var i in arrayOfItems){
         xAxisLabels[i] = arrayOfItems[i].itemName;
-        yAxisValues[i] = arrayOfItems[i].totalVotesForItem
+        yAxisValues[i] = arrayOfItems[i].totalVotesForItem;
+        chartBGColor[i] = randomizeColor();
+        chartBorderColor[i] = randomizeColor();
     }
 
 
@@ -187,14 +199,16 @@ function endpage(){
                 data: yAxisValues,
                 backgroundColor: chartBGColor,
                 borderColor: chartBorderColor,
-                borderWidth: 1
+                borderWidth: 5
             }]
         },
         options: {
             scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero:true
+                XAxes: [{
+                    ticks: {       
+                        max: 8,
+                        min: 0,
+                        stepsize: 1.0
                     }
                 }]
             }
