@@ -190,6 +190,7 @@ function endpage() {
             }]
         },
         options: {
+            responsive: false,
             scales: {
                 YAxes: [{
                     ticks: {
@@ -200,8 +201,4 @@ function endpage() {
             }
         }
     });
-    ctx.width = 150;
-    ctx.height = 100;
-    console.log(ctx)
-    //So I've tried specifying the width in the JS, the HTML, and the CSS of both the canvas element and the section that it's in (the docs say to specify size of canvas element in html).  None of that works, and my chart just blows up to monster size.  I'm out of guesses as to why, so I'm just gonna live with it.
 }
