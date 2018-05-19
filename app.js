@@ -2,7 +2,7 @@
 
 //   ====================         Declare Global Variables     ===============================
 
-var numItemsToDisplay = 3;
+var numItemsToDisplay = 7;
 var arrayOfItems = [];
 var votesMadeThusFar = 0;
 var itemsBeingShown = [];
