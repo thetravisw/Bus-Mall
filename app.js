@@ -53,7 +53,7 @@ function buildDisplayTable() {
 
     //calculate width of images.
     var screenWidth = window.screen.availWidth;
-    var imageWidth = Math.floor(screenWidth / (2 + numItemsToDisplay));
+    var imageWidth = Math.floor(0.9*screenWidth / (2 + numItemsToDisplay));
     if (imageWidth > 300) {
         imageWidth = 300;
     }
@@ -61,7 +61,6 @@ function buildDisplayTable() {
     for (var i in itemsBeingShown) {
         //  Do the Image Row
         var tdImages = document.createElement('td');
-        // switched from td to th to make capturing clicks easier.
         var img = document.createElement("img");
         img.width = imageWidth;
         img.height = imageWidth;
