@@ -1,0 +1,27 @@
+h1 {
+    text-align: center;
+    font-size: 4rem;
+    margin: 0px 0px 80px 0px;
+    font-family: 'Righteous', cursive;
+    color: darkturquoise;
+    padding-top: 100px;
+}
+main {
+    width: 90%;
+    margin: 0% auto;
+    background-color: rgb(209, 209, 209);
+}
+
+body{
+    background-color: turquoise;
+}
+
+
+table{
+    margin: auto;
+}
+
+td{
+    padding: 2px 1px 2px 1px;
+    text-align: center;
+}
